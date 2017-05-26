@@ -18,7 +18,6 @@ export default class EmojiTranslatorContainer extends Component {
       originalContent: event.target.value,
       translatedContent: event.target.value.toUpperCase()
     })
-    console.log('from handleTranslate: ', this.state.originalContent);
   }
 
   handleCreator(event) {
@@ -73,7 +72,7 @@ export default class EmojiTranslatorContainer extends Component {
 
   render() {
     return(
-      <div>
+      <div className="container">
         <Translator
           handleTranslate={this.handleTranslate.bind(this)}
           translatedContent={this.state.translatedContent}
