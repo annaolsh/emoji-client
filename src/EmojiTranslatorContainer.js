@@ -18,7 +18,6 @@ export default class EmojiTranslatorContainer extends Component {
       originalContent: event.target.value,
       translatedContent: event.target.value.toUpperCase()
     })
-    console.log('from handleTranslate: ', this.state.originalContent);
   }
 
   handleCreator(event) {
@@ -27,8 +26,20 @@ export default class EmojiTranslatorContainer extends Component {
     })
   }
 
+  componentDidMount() {
+    fetch('http://localhost:3000/stories', {
+      method: 'GET',
+    })
+      .then(res => res.json())
+      .then(data => this.setState({
+        stories: data
+      }))
+  }
+
   handleSubmit(event) {
+
     event.preventDefault()
+    const entry = this
     fetch('http://localhost:3000/stories', {
       method: 'POST',
       headers: {
@@ -42,7 +53,12 @@ export default class EmojiTranslatorContainer extends Component {
       }})
     })
       .then(res => res.json())
-      .then(data => console.log(data))
+      .then(function(data){
+        //console.log('data: ', data);
+        entry.setState(prevState => {
+          return {stories: [...prevState.stories, data]}
+        })
+      })
 
   }
 
@@ -56,7 +72,7 @@ export default class EmojiTranslatorContainer extends Component {
 
   render() {
     return(
-      <div>
+      <div className="container">
         <Translator
           handleTranslate={this.handleTranslate.bind(this)}
           translatedContent={this.state.translatedContent}
@@ -64,9 +80,8 @@ export default class EmojiTranslatorContainer extends Component {
           handleCreator={this.handleCreator.bind(this)}
         />
         <Stories
-        originalContent={this.state.originalContent}
-        translatedContent={this.state.translatedContent}
-      />
+          stories={this.state.stories}
+        />
       </div>
     )
   }

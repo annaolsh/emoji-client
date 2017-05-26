@@ -2,8 +2,8 @@ import React from 'react'
 
 export default (props) => {
   return(
-    <div>
-      <h1>This is a Translator component</h1>
+    <div className="container">
+      <h1>English => Emoji</h1>
       <form onSubmit={props.handleSubmit}>
         <textarea id="original" onChange={props.handleTranslate} placeholder="Enter your story here:"/>
         <br></br>
@@ -17,6 +17,7 @@ export default (props) => {
 
         <textarea
           id="translated"
+          placeholder="Translated text appears here!"
           value={props.translatedContent}
         />
           <br></br>
