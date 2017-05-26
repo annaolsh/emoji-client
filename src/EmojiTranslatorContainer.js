@@ -38,7 +38,9 @@ export default class EmojiTranslatorContainer extends Component {
   }
 
   handleSubmit(event) {
+
     event.preventDefault()
+    const entry = this
     fetch('http://localhost:3000/stories', {
       method: 'POST',
       headers: {
@@ -52,7 +54,13 @@ export default class EmojiTranslatorContainer extends Component {
       }})
     })
       .then(res => res.json())
-      .then(data => console.log(data))
+      .then(function(data){
+        //console.log('data: ', data);
+        entry.setState(prevState => {
+          return {stories: [...prevState.stories, data]}
+        })
+      })
+
   }
 
   // translate() {

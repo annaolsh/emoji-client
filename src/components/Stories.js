@@ -11,7 +11,7 @@ export default (props) => {
             <li>By: {story.creator}</li>
           </ul>
         )
-      })}
+      }).reverse()}
     </div>
   )
 }
