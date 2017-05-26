@@ -1,7 +1,17 @@
 import React from 'react'
 
-export default () => {
+export default (props) => {
   return(
-    <h1>This is a Stories component</h1>
+    <div>
+      <h1>This is a Stories component</h1>
+      {props.stories.map((story) => {
+        return(
+          <ul>
+            <li>{story.translated_content}</li>
+            <li>By: {story.creator}</li>
+          </ul>
+        )
+      })}
+    </div>
   )
 }

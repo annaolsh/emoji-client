@@ -27,6 +27,16 @@ export default class EmojiTranslatorContainer extends Component {
     })
   }
 
+  componentDidMount() {
+    fetch('http://localhost:3000/stories', {
+      method: 'GET',
+    })
+      .then(res => res.json())
+      .then(data => this.setState({
+        stories: data
+      }))
+  }
+
   handleSubmit(event) {
     event.preventDefault()
     fetch('http://localhost:3000/stories', {
@@ -43,7 +53,6 @@ export default class EmojiTranslatorContainer extends Component {
     })
       .then(res => res.json())
       .then(data => console.log(data))
-
   }
 
   // translate() {
@@ -64,9 +73,8 @@ export default class EmojiTranslatorContainer extends Component {
           handleCreator={this.handleCreator.bind(this)}
         />
         <Stories
-        originalContent={this.state.originalContent}
-        translatedContent={this.state.translatedContent}
-      />
+          stories={this.state.stories}
+        />
       </div>
     )
   }
