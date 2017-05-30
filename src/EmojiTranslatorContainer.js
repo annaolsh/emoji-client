@@ -24,18 +24,27 @@ export default class EmojiTranslatorContainer extends Component {
   handleTranslate(event) {
     this.setState({
       originalContent: event.target.value,
-      //translatedContent: event.target.value.toUpperCase()
-      translatedContent: this.mapOC(event.target.value)
+      translatedContent: this.translate(event.target.value)
     })
   }
 
-  mapOC(text){
-    return text.split(" ").map( word => {
-        if (emojiMap[word]) {
-          return emojiMap[word]
-      } else {
-        return word
-      }
+  translate(text){
+    let splittedText = text.split(" ")  // ["i", "love!", "trees"]
+    return splittedText.map( word => {
+      let punctuationArray = []
+      let pureWord = word.split("").map( char => {
+        if (/\w/.test(char)){
+          return char
+        } else {
+          punctuationArray.push(char)
+        }
+      })
+      console.log(pureWord.join(""))
+      if (Object.keys(emojiMap).includes(pureWord.join(""))) {
+        return emojiMap[pureWord.join("")] + punctuationArray.join("")
+    } else {
+      return word
+    }
     }).join(" ")
   }
 
