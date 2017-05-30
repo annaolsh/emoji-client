@@ -5,7 +5,11 @@ export default (props) => {
     <div className="container">
       <h1>English => Emoji</h1>
       <form onSubmit={props.handleSubmit}>
-        <textarea id="original" onChange={props.handleTranslate} placeholder="Enter your story here:"/>
+        <textarea
+          id="original"
+          onChange={props.handleTranslate}
+          placeholder="Enter your story here:"
+        />
         <br></br>
         <input
           onChange={props.handleCreator}
