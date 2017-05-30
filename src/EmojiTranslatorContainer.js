@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import Translator from './components/Translator';
 import Stories from './components/Stories';
 
+const emojiMap = {
+  "tree": "🌲",
+  "face": "😀",
+  "poop": "💩",
+  "like": "❤️",
+  "love": "❤️",
+}
+
 export default class EmojiTranslatorContainer extends Component {
   constructor() {
     super()
@@ -16,8 +24,19 @@ export default class EmojiTranslatorContainer extends Component {
   handleTranslate(event) {
     this.setState({
       originalContent: event.target.value,
-      translatedContent: event.target.value.toUpperCase()
+      //translatedContent: event.target.value.toUpperCase()
+      translatedContent: this.mapOC(event.target.value)
     })
+  }
+
+  mapOC(text){
+    return text.split(" ").map( word => {
+        if (emojiMap[word]) {
+          return emojiMap[word]
+      } else {
+        return word
+      }
+    }).join(" ")
   }
 
   handleCreator(event) {
