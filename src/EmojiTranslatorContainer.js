@@ -14,6 +14,7 @@ export default class EmojiTranslatorContainer extends Component {
   constructor() {
     super()
     this.state = {
+      storyID: 0,
       originalContent: '',
       creator: '',
       translatedContent: '',
@@ -64,37 +65,96 @@ export default class EmojiTranslatorContainer extends Component {
       }))
   }
 
-  handleSubmit(event) {
 
-    event.preventDefault()
-    const entry = this
-    fetch('http://localhost:3000/stories', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({story: {
-        original_content: this.state.originalContent,
-        creator: this.state.creator,
-        translated_content: this.state.translatedContent
-      }})
-    })
-      .then(res => res.json())
-      .then(function(data){
-        //console.log('data: ', data);
-        entry.setState(prevState => {
-          return {stories: [...prevState.stories, data]}
+  handleSubmit (id) {
+    return event => {
+      event.preventDefault()
+      console.log("story id :", id)
+      const entry = this
+      if (this.state.stories.find(story => story.id === id)) {
+        fetch(`http://localhost:3000/stories/${id}`, {
+          method: 'PATCH',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({story: {
+            original_content: this.state.originalContent,
+            creator: this.state.creator,
+            translated_content: this.state.translatedContent
+          }})
         })
-      })
+        .then(res => res.json())
+        .then(function(data){
+          entry.setState({
+            stories: data,
+            storyID: 0,
+            originalContent: "",
+            translatedContent: "",
+            creator: ""
+          })
+        })
+
+
+      } else {
+        fetch('http://localhost:3000/stories', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({story: {
+            original_content: this.state.originalContent,
+            creator: this.state.creator,
+            translated_content: this.state.translatedContent
+          }})
+        })
+        .then(res => res.json())
+        .then(function(data){
+          //console.log('data: ', data);
+          entry.setState(prevState => {
+            return {
+              stories: [...prevState.stories, data],
+              originalContent: "",
+              translatedContent: "",
+              creator: ""
+            }
+          })
+        })
+      }
+    }
+  }
+
+
+  handleEdit(id){
+    console.log("This is edit method running")
+    console.log(id)
+    let editStory = this.state.stories.find(story => story.id === id)
+    console.log(editStory.original_content)
+
+    this.setState({
+      originalContent: editStory.original_content,
+      translatedContent: editStory.translated_content,
+      creator: editStory.creator,
+      storyID: editStory.id,
+    })
 
   }
 
-  // translate() {
-  //   this.setState({
-  //     translatedContent:
-  //   })
-  // }
+  handleDelete(id){
+    // let deleteStory = this.state.stories.find(story => story.id === id)
+
+    fetch(`http://localhost:3000/stories/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+      .then(data => this.setState({ stories: data }) )
+
+    console.log("This is delete method running")
+  }
 
 
 
@@ -104,11 +164,18 @@ export default class EmojiTranslatorContainer extends Component {
         <Translator
           handleTranslate={this.handleTranslate.bind(this)}
           translatedContent={this.state.translatedContent}
+          originalContent={this.state.originalContent}
+          creator={this.state.creator}
           handleSubmit={this.handleSubmit.bind(this)}
           handleCreator={this.handleCreator.bind(this)}
+          stories={this.state.stories}
+          storyID={this.state.storyID}
         />
         <Stories
           stories={this.state.stories}
+          edit={this.handleEdit.bind(this)}
+          delete={this.handleDelete.bind(this)}
+
         />
       </div>
     )
