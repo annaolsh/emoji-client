@@ -2,19 +2,27 @@ import React from 'react'
 
 export default (props) => {
   return(
-    <div>
-      <h1>Stories</h1>
+    <div className="container black">
+      <h1 className="center-align">Stories</h1>
+
       {props.stories.map((story, index) => {
         return(
-          <ul key={index}>
-            <div className="card card-panel">
-              <li>ID: {story.id}</li>
-              <li>{story.translated_content}</li>
-              <li>By: {story.creator}</li>
-              <a className="btn" href="#translatorBox" onClick={function(){props.edit(story.id)}}> Edit </a>
-              <button className="btn" onClick={function(){props.delete(story.id)}}> Delete </button>
+          <div className="container">
+            <div className="card">
+              <div className="card-content">
+                <span className="card-title ">{story.title}</span>
+                <p id="translated-text">{story.translated_content}</p>
+              </div>
+              <div className="card-action">
+                <a href="#translatorBox" onClick={function(){props.edit(story.id)}}> Edit </a>
+                <a href="#" onClick={function(){props.delete(story.id)}}> Delete </a>
+                -
+              </div>
+
+
             </div>
-          </ul>
+          </div>
+
         )
       }).reverse()}
     </div>
