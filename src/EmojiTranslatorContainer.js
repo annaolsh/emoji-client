@@ -15,10 +15,12 @@ export default class EmojiTranslatorContainer extends Component {
   constructor() {
     super()
     this.state = {
+      storyID: 0,
       originalContent: '',
       creator: '',
       translatedContent: '',
-      stories: []
+      stories: [],
+      editing: false
     }
   }
 
@@ -30,7 +32,7 @@ export default class EmojiTranslatorContainer extends Component {
   }
 
   translate(text){
-    let splittedText = text.split(" ")  // ["i", "love!", "trees"]
+    let splittedText = text.replace( /\n/g, " " ).split( " " )  // ["i", "love!", "trees"]
     return splittedText.map( word => {
       let punctuationArray = []
       let pureWord = word.split("").map( char => {
@@ -41,8 +43,8 @@ export default class EmojiTranslatorContainer extends Component {
         }
       })
       console.log(pureWord.join(""))
-      if (Object.keys(emojiMap).includes(pureWord.join(""))) {
-        return emojiMap[pureWord.join("")] + punctuationArray.join("")
+      if (Object.keys(emojiMap).includes(pureWord.join("").toLowerCase())) {
+        return emojiMap[pureWord.join("").toLowerCase()] + punctuationArray.join("")
     } else {
       return word
     }
@@ -65,53 +67,122 @@ export default class EmojiTranslatorContainer extends Component {
       }))
   }
 
-  handleSubmit(event) {
 
-    event.preventDefault()
-    const entry = this
-    fetch('http://localhost:3000/stories', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({story: {
-        original_content: this.state.originalContent,
-        creator: this.state.creator,
-        translated_content: this.state.translatedContent
-      }})
-    })
-      .then(res => res.json())
-      .then(function(data){
-        //console.log('data: ', data);
-        entry.setState(prevState => {
-          return {stories: [...prevState.stories, data]}
+  handleSubmit (id) {
+    return event => {
+      event.preventDefault()
+      console.log("story id :", id)
+      const entry = this
+      if (this.state.stories.find(story => story.id === id)) {
+        fetch(`http://localhost:3000/stories/${id}`, {
+          method: 'PATCH',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({story: {
+            original_content: this.state.originalContent,
+            creator: this.state.creator,
+            translated_content: this.state.translatedContent
+          }})
         })
-      })
+        .then(res => res.json())
+        .then(function(data){
+          entry.setState({
+            stories: data,
+            storyID: 0,
+            originalContent: "",
+            translatedContent: "",
+            creator: "",
+            editing: false
+          })
+        })
+
+
+      } else {
+        fetch('http://localhost:3000/stories', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({story: {
+            original_content: this.state.originalContent,
+            creator: this.state.creator,
+            translated_content: this.state.translatedContent
+          }})
+        })
+        .then(res => res.json())
+        .then(function(data){
+          //console.log('data: ', data);
+          entry.setState(prevState => {
+            return {
+              stories: [...prevState.stories, data],
+              originalContent: "",
+              translatedContent: "",
+              creator: ""
+            }
+          })
+        })
+      }
+    }
+  }
+
+
+  handleEdit(id){
+    let editStory = this.state.stories.find(story => story.id === id)
+
+
+    this.setState({
+      originalContent: editStory.original_content,
+      translatedContent: editStory.translated_content,
+      creator: editStory.creator,
+      storyID: editStory.id,
+      editing: true
+    })
 
   }
 
-  // translate() {
-  //   this.setState({
-  //     translatedContent:
-  //   })
-  // }
+  handleDelete(id){
+
+    if (window.confirm("😱 You really want to delete this story?!")) {
+      fetch(`http://localhost:3000/stories/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }).then(res => res.json())
+      .then(data => this.setState({ stories: data }) )
+    }
+
+  }
 
 
 
   render() {
     return(
-      <div className="container">
-        <Translator
-          handleTranslate={this.handleTranslate.bind(this)}
-          translatedContent={this.state.translatedContent}
-          handleSubmit={this.handleSubmit.bind(this)}
-          handleCreator={this.handleCreator.bind(this)}
-        />
-        <Stories
-          stories={this.state.stories}
-        />
-      </div>
+
+        <div className="container">
+          <Translator
+            handleTranslate={this.handleTranslate.bind(this)}
+            translatedContent={this.state.translatedContent}
+            originalContent={this.state.originalContent}
+            creator={this.state.creator}
+            handleSubmit={this.handleSubmit.bind(this)}
+            handleCreator={this.handleCreator.bind(this)}
+            stories={this.state.stories}
+            storyID={this.state.storyID}
+            editing={this.state.editing}
+          />
+          <Stories
+            stories={this.state.stories}
+            edit={this.handleEdit.bind(this)}
+            delete={this.handleDelete.bind(this)}
+
+          />
+        </div>
+
     )
   }
 }
