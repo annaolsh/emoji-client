@@ -143,18 +143,18 @@ export default class EmojiTranslatorContainer extends Component {
   }
 
   handleDelete(id){
-    // let deleteStory = this.state.stories.find(story => story.id === id)
-
-    fetch(`http://localhost:3000/stories/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    }).then(res => res.json())
+    
+    if (window.confirm("😱 You really want to delete this story?!")) {
+      fetch(`http://localhost:3000/stories/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }).then(res => res.json())
       .then(data => this.setState({ stories: data }) )
+    }
 
-    console.log("This is delete method running")
   }
 
 
