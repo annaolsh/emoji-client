@@ -62,7 +62,9 @@ html, body {
 .div-border-white { border:10px solid white; }
 
 /* Parallax */
-
+.alien1 {
+  top: 600px;
+}
 
 
 @keyframes App-logo-spin {

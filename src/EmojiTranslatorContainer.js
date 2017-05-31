@@ -124,8 +124,6 @@ export default class EmojiTranslatorContainer extends Component {
 
   handleEdit(id){
     let editStory = this.state.stories.find(story => story.id === id)
-
-
     this.setState({
       originalContent: editStory.original_content,
       translatedContent: editStory.translated_content,
@@ -148,22 +146,14 @@ export default class EmojiTranslatorContainer extends Component {
       }).then(res => res.json())
       .then(data => this.setState({ stories: data }) )
     }
-
   }
-
-
-  // <div style={{
-  //   width: 800,
-  //   height: 300,
-  //   backgroundColor: '#450093'
-  // }}></div>
 
   render() {
     return(
 
           <Parallax >
             <Background>
-              <img src="https://68.media.tumblr.com/c9fec603315e45b1d563cd766205aad8/tumblr_n5xpluDjJt1tbaizso1_250.png" strength={200}/>
+              <img class="alien1" src="https://68.media.tumblr.com/c9fec603315e45b1d563cd766205aad8/tumblr_n5xpluDjJt1tbaizso1_250.png" strength={200}/>
               <img src="http://www.pngall.com/wp-content/uploads/2016/06/Love-Hearts-Eyes-Emoji-PNG.png" strength={1000}/>
               <img src="http://www.hey.fr/fun/emoji/android/en/android/658-emoji_android_fearful_face.png" strength={1000}/>
             </Background>
