@@ -124,8 +124,6 @@ export default class EmojiTranslatorContainer extends Component {
 
   handleEdit(id){
     let editStory = this.state.stories.find(story => story.id === id)
-
-
     this.setState({
       originalContent: editStory.original_content,
       translatedContent: editStory.translated_content,
