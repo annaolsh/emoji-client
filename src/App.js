@@ -6,7 +6,9 @@ import EmojiTranslatorContainer from './EmojiTranslatorContainer';
 class App extends Component {
   render() {
     return (
-      <EmojiTranslatorContainer />
+      
+        <EmojiTranslatorContainer />
+
     );
   }
 }

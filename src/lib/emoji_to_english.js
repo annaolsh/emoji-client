@@ -1,4 +1,5 @@
-const emojiMap =
+
+const emojiLegend =
 {
 "activity": "⚽",
 "adores": "😍",
@@ -1001,3 +1002,5 @@ const emojiMap =
 "zip": "🤐",
 "zzz": "💤",
 }
+
+export default emojiLegend
