@@ -18,7 +18,8 @@ export default class EmojiTranslatorContainer extends Component {
       originalContent: '',
       creator: '',
       translatedContent: '',
-      stories: []
+      stories: [],
+      editing: false
     }
   }
 
@@ -30,7 +31,7 @@ export default class EmojiTranslatorContainer extends Component {
   }
 
   translate(text){
-    let splittedText = text.split(" ")  // ["i", "love!", "trees"]
+    let splittedText = text.replace( /\n/g, " " ).split( " " )  // ["i", "love!", "trees"]
     return splittedText.map( word => {
       let punctuationArray = []
       let pureWord = word.split("").map( char => {
@@ -41,8 +42,8 @@ export default class EmojiTranslatorContainer extends Component {
         }
       })
       console.log(pureWord.join(""))
-      if (Object.keys(emojiMap).includes(pureWord.join(""))) {
-        return emojiMap[pureWord.join("")] + punctuationArray.join("")
+      if (Object.keys(emojiMap).includes(pureWord.join("").toLowerCase())) {
+        return emojiMap[pureWord.join("").toLowerCase()] + punctuationArray.join("")
     } else {
       return word
     }
@@ -91,7 +92,8 @@ export default class EmojiTranslatorContainer extends Component {
             storyID: 0,
             originalContent: "",
             translatedContent: "",
-            creator: ""
+            creator: "",
+            editing: false
           })
         })
 
@@ -127,16 +129,15 @@ export default class EmojiTranslatorContainer extends Component {
 
 
   handleEdit(id){
-    console.log("This is edit method running")
-    console.log(id)
     let editStory = this.state.stories.find(story => story.id === id)
-    console.log(editStory.original_content)
+
 
     this.setState({
       originalContent: editStory.original_content,
       translatedContent: editStory.translated_content,
       creator: editStory.creator,
       storyID: editStory.id,
+      editing: true
     })
 
   }
@@ -160,24 +161,27 @@ export default class EmojiTranslatorContainer extends Component {
 
   render() {
     return(
-      <div className="container">
-        <Translator
-          handleTranslate={this.handleTranslate.bind(this)}
-          translatedContent={this.state.translatedContent}
-          originalContent={this.state.originalContent}
-          creator={this.state.creator}
-          handleSubmit={this.handleSubmit.bind(this)}
-          handleCreator={this.handleCreator.bind(this)}
-          stories={this.state.stories}
-          storyID={this.state.storyID}
-        />
-        <Stories
-          stories={this.state.stories}
-          edit={this.handleEdit.bind(this)}
-          delete={this.handleDelete.bind(this)}
 
-        />
-      </div>
+        <div className="container">
+          <Translator
+            handleTranslate={this.handleTranslate.bind(this)}
+            translatedContent={this.state.translatedContent}
+            originalContent={this.state.originalContent}
+            creator={this.state.creator}
+            handleSubmit={this.handleSubmit.bind(this)}
+            handleCreator={this.handleCreator.bind(this)}
+            stories={this.state.stories}
+            storyID={this.state.storyID}
+            editing={this.state.editing}
+          />
+          <Stories
+            stories={this.state.stories}
+            edit={this.handleEdit.bind(this)}
+            delete={this.handleDelete.bind(this)}
+
+          />
+        </div>
+
     )
   }
 }
