@@ -8,6 +8,7 @@ const emojiMap = {
   "poop": "💩",
   "like": "❤️",
   "love": "❤️",
+  "Smileys": "😃",
 }
 
 export default class EmojiTranslatorContainer extends Component {
