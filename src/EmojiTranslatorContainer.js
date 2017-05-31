@@ -1,15 +1,8 @@
 import React, { Component } from 'react';
 import Translator from './components/Translator';
+import emojiLegend from './lib/emoji_to_english.js';
 import Stories from './components/Stories';
-
-const emojiMap = {
-  "tree": "🌲",
-  "face": "😀",
-  "poop": "💩",
-  "like": "❤️",
-  "love": "❤️",
-  "Smileys": "😃",
-}
+import { Background, Parallax } from '../node_modules/react-parallax';
 
 export default class EmojiTranslatorContainer extends Component {
   constructor() {
@@ -17,7 +10,7 @@ export default class EmojiTranslatorContainer extends Component {
     this.state = {
       storyID: 0,
       originalContent: '',
-      creator: '',
+      title: '',
       translatedContent: '',
       stories: [],
       editing: false
@@ -43,17 +36,17 @@ export default class EmojiTranslatorContainer extends Component {
         }
       })
       console.log(pureWord.join(""))
-      if (Object.keys(emojiMap).includes(pureWord.join("").toLowerCase())) {
-        return emojiMap[pureWord.join("").toLowerCase()] + punctuationArray.join("")
+      if (Object.keys(emojiLegend).includes(pureWord.join("").toLowerCase())) {
+        return emojiLegend[pureWord.join("").toLowerCase()] + punctuationArray.join("")
     } else {
       return word
     }
     }).join(" ")
   }
 
-  handleCreator(event) {
+  handleTitle(event) {
     this.setState({
-       creator: event.target.value
+       title: event.target.value
     })
   }
 
@@ -82,7 +75,7 @@ export default class EmojiTranslatorContainer extends Component {
           },
           body: JSON.stringify({story: {
             original_content: this.state.originalContent,
-            creator: this.state.creator,
+            title: this.state.title,
             translated_content: this.state.translatedContent
           }})
         })
@@ -93,7 +86,7 @@ export default class EmojiTranslatorContainer extends Component {
             storyID: 0,
             originalContent: "",
             translatedContent: "",
-            creator: "",
+            title: "",
             editing: false
           })
         })
@@ -108,7 +101,7 @@ export default class EmojiTranslatorContainer extends Component {
           },
           body: JSON.stringify({story: {
             original_content: this.state.originalContent,
-            creator: this.state.creator,
+            title: this.state.title,
             translated_content: this.state.translatedContent
           }})
         })
@@ -120,7 +113,7 @@ export default class EmojiTranslatorContainer extends Component {
               stories: [...prevState.stories, data],
               originalContent: "",
               translatedContent: "",
-              creator: ""
+              title: ""
             }
           })
         })
@@ -136,7 +129,7 @@ export default class EmojiTranslatorContainer extends Component {
     this.setState({
       originalContent: editStory.original_content,
       translatedContent: editStory.translated_content,
-      creator: editStory.creator,
+      title: editStory.title,
       storyID: editStory.id,
       editing: true
     })
@@ -144,7 +137,7 @@ export default class EmojiTranslatorContainer extends Component {
   }
 
   handleDelete(id){
-    
+
     if (window.confirm("😱 You really want to delete this story?!")) {
       fetch(`http://localhost:3000/stories/${id}`, {
         method: 'DELETE',
@@ -159,29 +152,45 @@ export default class EmojiTranslatorContainer extends Component {
   }
 
 
+  // <div style={{
+  //   width: 800,
+  //   height: 300,
+  //   backgroundColor: '#450093'
+  // }}></div>
 
   render() {
     return(
 
-        <div className="container">
-          <Translator
-            handleTranslate={this.handleTranslate.bind(this)}
-            translatedContent={this.state.translatedContent}
-            originalContent={this.state.originalContent}
-            creator={this.state.creator}
-            handleSubmit={this.handleSubmit.bind(this)}
-            handleCreator={this.handleCreator.bind(this)}
-            stories={this.state.stories}
-            storyID={this.state.storyID}
-            editing={this.state.editing}
-          />
-          <Stories
-            stories={this.state.stories}
-            edit={this.handleEdit.bind(this)}
-            delete={this.handleDelete.bind(this)}
+          <Parallax >
+            <Background>
+              <img src="https://68.media.tumblr.com/c9fec603315e45b1d563cd766205aad8/tumblr_n5xpluDjJt1tbaizso1_250.png" strength={200}/>
+              <img src="http://www.pngall.com/wp-content/uploads/2016/06/Love-Hearts-Eyes-Emoji-PNG.png" strength={1000}/>
+              <img src="http://www.hey.fr/fun/emoji/android/en/android/658-emoji_android_fearful_face.png" strength={1000}/>
+            </Background>
 
-          />
-        </div>
+            <div className="container">
+              <Translator
+                handleTranslate={this.handleTranslate.bind(this)}
+                translatedContent={this.state.translatedContent}
+                originalContent={this.state.originalContent}
+                title={this.state.title}
+                handleSubmit={this.handleSubmit.bind(this)}
+                handleTitle={this.handleTitle.bind(this)}
+                stories={this.state.stories}
+                storyID={this.state.storyID}
+                editing={this.state.editing}
+              />
+              <br/>
+              <Stories
+                stories={this.state.stories}
+                edit={this.handleEdit.bind(this)}
+                delete={this.handleDelete.bind(this)}
+
+              />
+
+
+            </div>
+          </Parallax>
 
     )
   }

@@ -12,13 +12,19 @@ h5 {
 }
 
 
-body {
-    background-image: url("images/spacey.jpg");
+html, body {
+    margin: 0;
+    padding: 0;
+    background-image: url("images/stars.jpg");
+    text-rendering: optimizeLegibility;
+    color: #999;
+    overflow-x: hidden;
 }
 
 .App {
   text-align: center;
 }
+
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
@@ -51,8 +57,13 @@ body {
   /*font-size: 32px;*/
 }
 
+
 .div-border-black { border:20px solid black; }
 .div-border-white { border:10px solid white; }
+
+/* Parallax */
+
+
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }

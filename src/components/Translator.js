@@ -30,6 +30,8 @@ export default (props) => {
     }
   }
 
+
+
   return(
     <div>
       <h1 className="center-align">English => Emoji</h1>
@@ -53,7 +55,7 @@ export default (props) => {
                 <div className="col s4">
                 </div>
                 <div className="col s4">
-                  <input onChange={props.handleCreator} id="creator" type="text" placeholder="Creator" value={props.creator} />
+                  <input onChange={props.handleTitle} id="title" type="text" placeholder="Title" value={props.title} />
                 </div>
                 <div className="col s4">
                 </div>
