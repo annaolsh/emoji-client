@@ -150,12 +150,33 @@ export default class EmojiTranslatorContainer extends Component {
 
   render() {
     return(
+        <div>
 
-          <Parallax >
+
+          <Parallax strength={300}>
             <Background>
-              <img class="alien1" src="https://68.media.tumblr.com/c9fec603315e45b1d563cd766205aad8/tumblr_n5xpluDjJt1tbaizso1_250.png" strength={200}/>
-              <img src="http://www.pngall.com/wp-content/uploads/2016/06/Love-Hearts-Eyes-Emoji-PNG.png" strength={1000}/>
+              <div className="row">
+                <div style={{
+                  width: 800,
+                  height: 300,
+                  // backgroundColor: '#450093'
+                }}></div>
+              </div>
+
+              <div className="row">
+                <div className="col s4">
+                  <img  src="https://68.media.tumblr.com/c9fec603315e45b1d563cd766205aad8/tumblr_n5xpluDjJt1tbaizso1_250.png" strength={200}/>
+                </div>
+                <div className="col s4">
+                </div>
+                <div className="col s4 offset-3">
+                  <img src="http://www.pngall.com/wp-content/uploads/2016/06/Love-Hearts-Eyes-Emoji-PNG.png" strength={1000}/>
+                </div>
+              </div>
               <img src="http://www.hey.fr/fun/emoji/android/en/android/658-emoji_android_fearful_face.png" strength={1000}/>
+
+              <img  src="https://cdn.shopify.com/s/files/1/1061/1924/files/Slice_Of_Pizza_Emoji.png?9898922749706957214" strength={200}/>
+              
             </Background>
 
             <div className="container">
@@ -181,7 +202,8 @@ export default class EmojiTranslatorContainer extends Component {
 
             </div>
           </Parallax>
+          </div>
 
-    )
+          )
   }
 }

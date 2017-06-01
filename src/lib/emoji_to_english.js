@@ -312,7 +312,7 @@ const emojiLegend =
 "envolope": "📨",
 "eritrea": "🇪🇷",
 "estonia": "🇪🇪",
-"Ethan": "😄",
+"ethan": "😄",
 "ethiopia": "🇪🇹",
 "eu": "🇪🇺",
 "euro": "💶",
@@ -630,6 +630,8 @@ const emojiLegend =
 "olympics": "◯‍◯‍◯‍◯‍◯",
 "om": "🕉",
 "oman": "🇴🇲",
+"omg": "😱",
+"scream": "😱",
 "on": "🔛",
 "oncoming": "🚘",
 "one": "🕐",
@@ -823,6 +825,7 @@ const emojiLegend =
 "sos": "🆘",
 "spaceship": "🚀",
 "spaceships": "🚀",
+"space": "🌌",
 "spade": "♠",
 "spaghetti": "🍝",
 "spain": "🇪🇸",
@@ -1001,6 +1004,8 @@ const emojiLegend =
 "zimbabwe": "🇿🇼",
 "zip": "🤐",
 "zzz": "💤",
+"phone": "📞",
+"home": "🏠",
 }
 
 export default emojiLegend
