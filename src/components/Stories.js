@@ -2,7 +2,6 @@ import React from 'react'
 
 export default (props) => {
 
-
   return(
     <div className="container black">
       <h1 className="center-align">Stories</h1>
@@ -25,7 +24,7 @@ export default (props) => {
 
         )
       }).reverse()}
-      
+
     </div>
   )
 }
